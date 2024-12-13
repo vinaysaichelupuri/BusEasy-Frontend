@@ -3,10 +3,14 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Login } from './Login';
 import axios from 'axios';
 import '@testing-library/jest-dom';
+import { useNavigate } from 'react-router-dom';
 
 jest.mock('axios',()=>({
     post:jest.fn(),
     get:jest.fn()
+}));
+jest.mock('react-router-dom',()=>({
+  useNavigate:jest.fn(),
 }));
 describe('Login Component', () => {
     beforeEach(() => {
@@ -33,9 +37,13 @@ describe('Login Component', () => {
   });
 
   test('submits the form and makes an API call', async () => {
-    render(<Login />);
+    const mockNavigate = jest.fn();  // Mock the navigate function
+    (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
 
+    // Mock the API response
     (axios.post as jest.Mock).mockResolvedValue({ status: 200 });
+
+    render(<Login />);
 
     const usernameInput = screen.getByPlaceholderText('Username');
     const passwordInput = screen.getByPlaceholderText('Password');
@@ -43,15 +51,18 @@ describe('Login Component', () => {
 
     fireEvent.change(usernameInput, { target: { value: 'vinay' } });
     fireEvent.change(passwordInput, { target: { value: '1234' } });
-
     fireEvent.click(loginButton);
 
-    await waitFor(() => expect(axios.post).toHaveBeenCalledWith(
-      'http://localhost:5005/api/user', 
-      { name: 'vinay', password: '1234' }
-    ));
-
-    await waitFor(() => expect(axios.post).toHaveBeenCalled());
+    await waitFor(() => {
+      // Ensure the axios.post was called correctly
+      expect(axios.post).toHaveBeenCalledWith(
+        'http://localhost:5005/api/user',
+        { name: 'vinay', password: '1234' }
+      );
+      
+      // Ensure navigate was called with the correct route after successful login
+      expect(mockNavigate).toHaveBeenCalledWith('/home');
+    });
   });
 
 });
