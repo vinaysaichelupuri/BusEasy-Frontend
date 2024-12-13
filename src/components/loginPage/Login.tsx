@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import './Login.css'; 
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 export const Login = () => {
+  const navigate = useNavigate();
+const goToRegister = () => {
+  navigate('/register');
+};
   const [formData, setFormData] = useState({ username: "", password: "" });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +22,10 @@ export const Login = () => {
       name: formData.username,
       password: formData.password
     });
-    console.log(response.status)
+    if(response.status===200){
+      alert('Registration completed succesfully')
+      navigate('/home');
+  }
   };
 
   return (
@@ -42,7 +52,7 @@ export const Login = () => {
           />
           <button type="submit" className="login-login-button">Login</button>
           <div className="login-register-button-div">
-          <button className="login-register-button">
+          <button className="login-register-button" onClick={goToRegister}>
             Don't have an account? Create account
           </button>
           </div>
