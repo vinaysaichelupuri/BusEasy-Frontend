@@ -57,7 +57,7 @@ const goToRegister = () => {
           />
           <button type="submit" className="login-login-button">Login</button>
           <div className="login-register-button-div">
-          <button className="login-register-button" onClick={goToRegister}>
+          <button className="login-register-button" onClick={goToRegister} data-test-id="register">
             Don't have an account? Create account
           </button>
           </div>
