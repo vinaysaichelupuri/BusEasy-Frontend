@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import './Login.css'; 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import * as dotenv from 'dotenv'
+dotenv.config({
+    override: true,
+    path: '.env',
+  });
 
 
 export const Login = () => {
@@ -11,16 +16,16 @@ const goToRegister = () => {
 };
   const [formData, setFormData] = useState({ username: "", password: "" });
 
-  const handleChange = (e) => {
+  const handleChange = (e:any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post('http://localhost:5005/api/user', {
+    const baseUrl = process.env.REACT_APP_API_BASE_URL;
+    const response = await axios.post(`${baseUrl}user`, {
       name: formData.username,
-      password: formData.password
+      password: formData.password,
     });
     if(response.status===200){
       alert('Registration completed succesfully')
