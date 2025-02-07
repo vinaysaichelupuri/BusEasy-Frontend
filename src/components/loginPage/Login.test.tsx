@@ -48,8 +48,7 @@ describe('Login Component', () => {
         'http://localhost:5005/api/user',
         { name: 'vinay', password: '1234' }
       );
-      
-      expect(mockNavigate).toHaveBeenCalledWith('/home');
+      expect(mockNavigate).toHaveBeenCalledWith("/home", {"state": {"name": "vinay"}});
     });
   });
 });

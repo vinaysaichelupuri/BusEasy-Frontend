@@ -3,7 +3,6 @@ import './Register.css';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
 export const Register = () => {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
@@ -11,11 +10,9 @@ export const Register = () => {
   const goToLogin = () => {
     navigate('/login');
   };
-
-  // Submit function
   const onSubmit = async (data) => {
-    const baseUrl = process.env.REACT_APP_API_BASE_URL;
-      const response = await axios.post(`${baseUrl}users`, {
+    console.log(`${process.env.REACT_APP_BASE_URL}/users`);
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/users`, {
         name: data.username,
         password: data.password,
         email: data.email,
@@ -25,6 +22,9 @@ export const Register = () => {
       if (response.status === 200) {
         alert('Registration completed successfully');
         navigate('/login');
+      }
+      if(response.status===400){
+        alert('User already exists! Please login.')
       }
   };
 
