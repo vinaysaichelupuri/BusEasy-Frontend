@@ -15,8 +15,8 @@ export const Introduction = () => {
       <div className='sub-container'>
       <h1 className='intro-text'>Welcome to BusEasy!</h1>
       <div className='buttons-div'>
-      <button type="submit" className="intro-button" onClick={goToLogin}>Vinay</button>
-      <button type='submit' className="intro-button" onClick={goToRegister}>Sanath</button>
+      <button type="submit" className="intro-button" onClick={goToLogin}>Vinay Sai</button>
+      <button type='submit' className="intro-button" onClick={goToRegister}>Sanath Kumar</button>
       </div>
       </div>
 
